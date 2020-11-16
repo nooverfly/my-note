@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sessionStorage</title>
+    <link rel="stylesheet" href="../../libs/bootstrap/css/bootstrap.min.css">
+    <style>
+        .content-container {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="content-container">
+    <div class="card" style="width: 100%">
+        <div class="card-body">
+            <h5 class="card-title">sessionStorage</h5>
+            <p class="card-text">
+                sessionStorage
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+    let item = sessionStorage.getItem("test-ss");
+    if (item) {
+        console.log("From SessionStorage", JSON.stringify(item));
+    } else {
+        let user = {
+            username: "admin",
+            age: 18
+        };
+        sessionStorage.setItem("test-ss", JSON.stringify(user));
+        let s = sessionStorage.getItem("test-ss");
+        console.log("From Other", user);
+    }
+</script>
+</body>
+</html>

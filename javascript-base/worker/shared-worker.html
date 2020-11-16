@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SharedWorker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+    <style>
+        .content-container {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="content-container">
+    <div class="card" style="width: 100%">
+        <div class="card-body">
+            <h5 class="card-title">shared worker</h5>
+            <p class="card-text">
+                共享worker可被多个可信执行环境访问. SharedWorker构造函数仅在没有具有相同身份的worker实例存在时才会创建一个新的.
+                若一个共享worker和已存在的共享身份匹配, 就会和已存在的共享worker形成一个新的连接.
+                共享worker身份由解析脚本URL, worker名和文档源确定.
+            </p>
+            <p class="card-text">
+                创建共享Worker的方式:<br/>
+                1. Worker构造函数提供JavaScript文件路径来创建. <br/>
+                2. 内联JavaScript创建共享Worker意义不大.
+            </p>
+            <p class="card-text">
+                生命周期:只要还有一个环境保持和共享worker连接，共享worker就会持续.<br/>
+                SharedWorker对象的“连接”与相应的MessagePort或MessageChannel的状态无关。一旦建立和共享worker的连接, 连接的管理由浏览器负责.
+                建立的连接将持续在页面的生命周期中持续, 只有页面销毁，共享worker上没有更多连接的时候，浏览器终止该worker.
+            </p>
+            <p class="card-text">
+                每次调用SharedWorker构造函数时，在共享worker内部触发connect事件. connect事件出现时, SharedWorker构造函数隐式创建一个MessageChannel,
+                并给传入一个对SharedWorker实例来说是唯一的MessagePort所有权. MessagePort在connect事件对象内部可用ports数组访问
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+    let sharedWorker = new SharedWorker("./shared-worker.js");
+
+    sharedWorker.port.onmessage = function (event) {
+        console.log(event.data);
+    };
+
+    sharedWorker.port.start();
+
+    sharedWorker.port.postMessage([1,2]);
+</script>
+</body>
+</html>

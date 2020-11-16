@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>immutable-map</title>
+    <script src="../../libs/immutable.min.js"></script>
+    <link rel="stylesheet" href="../../libs/bootstrap/css/bootstrap.min.css">
+    <style>
+        .content-container {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="content-container">
+    <div class="card" style="width: 100%">
+        <div class="card-body">
+            <h5 class="card-title">immutable-map</h5>
+            <p class="card-text">
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+    const Map = Immutable.Map;
+    const List = Immutable.List;
+
+    console.log(Map({key: "value"}).toString());
+    console.log(Map([["key", "value"]]).toString());
+
+    // JS对象的属性将会对待为字符串
+    let obj = { 1: "one" };
+    console.log(Object.keys(obj));
+    console.log(obj["1"]);
+    console.log(obj[1]);
+
+    let map = Map(obj);
+    console.log(map.get("1")); // get()的参数不会自动转换
+    console.log(map.get(1));
+</script>
+</body>
+</html>

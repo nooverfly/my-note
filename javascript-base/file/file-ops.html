@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件操作</title>
+</head>
+<body>
+<input type="file" id="readFile"/>
+<script>
+    document.getElementById("readFile").addEventListener("change", function (e) {
+        console.log(e, this);
+        /*var file = this.files[0];
+        var reader = new FileReader();
+        reader.readAsText(file);
+        reader.onloadend = function () {
+            console.log(reader.result);
+        }*/
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>immutable-list</title>
+    <script src="../../libs/immutable.min.js"></script>
+    <link rel="stylesheet" href="../../libs/bootstrap/css/bootstrap.min.css">
+    <style>
+        .content-container {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="content-container">
+    <div class="card" style="width: 100%">
+        <div class="card-body">
+            <h5 class="card-title">immutable-list</h5>
+            <p class="card-text">
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+    // List密集型有序集合
+    // 构造函数
+    const List = Immutable.List;
+    const emptyList = List();
+
+    const plainArray = [1, 2, 3, 4];
+    const listFromPlainArray = List(plainArray);
+
+    const plainSet = Immutable.Set([1, 2, 3, 4]);
+    const listFromPlainSet = List(plainSet);
+
+    const arrayIterator = plainArray[Symbol.iterator]();
+    const listFromCollectionArray = List(arrayIterator);
+
+    console.log(emptyList, listFromPlainArray, listFromPlainSet, listFromCollectionArray);
+
+    console.log(listFromPlainArray.equals(listFromCollectionArray));
+    console.log(listFromPlainSet.equals(listFromCollectionArray));
+    console.log(listFromPlainSet.equals(listFromPlainArray));
+
+    // static methods
+    console.log(List.isList(emptyList));
+    console.log(List.of(1, 2, 3, 4));
+    console.log(listFromPlainArray.size);
+
+    // set
+    let originalList = List([0]);
+    originalList = originalList.set(1, 1);
+    originalList = originalList.set(0, 'overwritten');
+    originalList = originalList.set(2, 2);
+    console.log(List().set(50000, 'value').size);
+
+    // delete
+    console.log("delete", List([1, 2, 3, 4, 5]).delete(0).toString());
+
+    // insert
+    console.log("insert", List([0, 1, 2, 3, 4]).insert(8, 5).toString());
+
+    // clear
+    console.log("clear", List([1, 2, 3, 4]).clear().toString());
+
+    // push
+    console.log("push", List([1, 2, 3, 4]).push(5).toString());
+
+    // pop
+    console.log("pop", List([1, 2, 3, 4]).pop().toString());
+
+    // unshift
+    console.log("unshift", List([2, 3, 4]).unshift(1).toString());
+
+    // shift
+    console.log("shift", List([0, 1, 2, 3, 4]).shift().toString());
+
+    // update
+    const list = List(['a', 'b', 'c']);
+    console.log("update", list.update(1, val => val.toUpperCase()).toString());
+
+    // setSize
+    console.log("setSize", List().setSize(6).toString());
+</script>
+</body>
+</html>

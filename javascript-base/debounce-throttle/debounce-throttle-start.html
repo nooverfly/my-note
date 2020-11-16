@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>防抖-节流</title>
+</head>
+<body>
+<script>
+    // 防抖: 持续触发事件在一定时间内没触发才会执行处理函数.
+    function debounce(fn, wait) {
+        var timeout = null;
+        return function (e) {
+            if (timeout) {
+                clearTimeout(timeout);
+                timeout = null;
+            }
+            timeout = setTimeout(() => {
+                fn(e);
+            }, wait);
+        }
+    }
+
+    function handle(e) {
+        console.log(e.deltaMode, e.deltaY);
+        console.log("Math.random: " + Math.random());
+    }
+
+    window.addEventListener("wheel", debounce(handle, 1000));
+
+    // 节流: 持续触发事件在一定时间段内只调用一次事件处理函数.
+    // 定时器
+    /*function throttle(fn, delay) {
+        var timeout = null;
+        return function () {
+            if (!timeout) {
+                timeout = setTimeout(function () {
+                    timeout = null;
+                    fn();
+                }, delay);
+            }
+        }
+    }*/
+
+    // 时间戳
+    function throttle(fn, delay) {
+        var prev = Date.now();
+        return function () {
+            var now = Date.now();
+            if (now - prev >= delay) {
+                fn();
+                prev = Date.now();
+            }
+        }
+    }
+
+    function handle2() {
+        console.log("Math.random: " + Math.random());
+    }
+
+    window.addEventListener("resize", throttle(handle, 1000));
+
+</script>
+</body>
+</html>

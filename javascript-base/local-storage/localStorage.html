@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>localStorage</title>
+    <link rel="stylesheet" href="../../libs/bootstrap/css/bootstrap.min.css">
+    <style>
+        .content-container {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="content-container">
+    <div class="card" style="width: 100%">
+        <div class="card-body">
+            <h5 class="card-title">localStorage</h5>
+            <p class="card-text">
+                localStorage
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+    localStorage.setItem("test-ls", JSON.stringify({
+        username: "admin",
+        age: 18
+    }));
+
+    setTimeout(() => {
+        let item = localStorage.getItem("test-ls");
+        console.log(JSON.parse(item));
+    })
+</script>
+</body>
+</html>

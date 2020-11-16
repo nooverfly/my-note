@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no"/>
+    <title>PWA</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="pwa.css">
+    <link rel="icon" href="favicon.ico" type="image/png"/>
+    <script src="./pwa.js"></script>
+</head>
+<body>
+<img src="visualization.jpg" alt="可视化开发"/>
+<button class="btn">按钮</button>
+<script>
+    // 主线程中使用, 不推荐
+    /*let notification = new Notification('您有新消息', {
+        body: "Hello Service Worker",
+        icon: "./favicon.ico"
+    });
+    notification.onclick = function () {
+        console.log('点击了');
+    }*/
+</script>
+</body>
+</html>

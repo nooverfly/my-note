@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>service-worker</title>
+</head>
+<body>
+<script>
+    // 服务worker由ServiceWorkerContainer（通过navigator.serviceWorker获取）管理
+    // console.log(navigator.serviceWorker);
+
+    // 创建服务Worker: ServiceWorkerContainer的register()方法, 返回promise对象
+    // resolve得到ServiceWorkerRegistration对象
+    // navigator.serviceWorker.register('./service-worker.js').then(console.log, console.error);
+
+    /*const request = "https://www.foo.com";
+    const response = new Response('fooResponse');
+
+    caches.open('v1').then(cache => {
+        cache.put(request, response).then(() =>
+            cache.match(new Request("https://www.foo.com")).then(resp => {
+                console.log(resp == response);
+                return resp.text();
+            }).then(console.log)
+        )
+    })*/
+
+    // 最大缓存
+    navigator.storage.estimate().then(console.log);
+</script>
+</body>
+</html>

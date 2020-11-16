@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dedicated worker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+    <style>
+        .content-container {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="content-container">
+    <div class="card" style="width: 100%">
+        <div class="card-body">
+            <h5 class="card-title">dedicated worker</h5>
+            <p class="card-text">
+                专用Worker, 只能由创建它的页面访问. Worker脚本文件只能从与父页面相同的源载入.
+            </p>
+            <p class="card-text">
+                创建专用Worker的方式:<br/>
+                1. Worker构造函数提供JavaScript文件路径来创建. <br/>
+                2. 内联JavaScript创建Worker: 通过blob, URL对象创建
+            </p>
+            <p class="card-text">
+                与专用Worker的通讯方式:<br/>
+                1. postMessage()通讯. <br/>
+                2. MessageChannel通讯: 可以实现两个worker之间直接通讯 <br/>
+                3. BroadcastChannel通讯 <br/>
+            </p>
+            <p class="card-text">
+                创建worker代价很高, 使用worker池优化.
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+    // 创建专用worker
+    // 方式1: JavaScript文件路径创建专用worker线程
+    // Worker脚本文件只能从与父页面相同的源载入, 但importScripts()可以执行来自远程源的代码
+
+    // 报错, 源不同
+    // var w = new Worker("https://cdn.bootcdn.net/ajax/libs/crypto-js/3.3.0/crypto-js.min.js");
+
+    var worker = new Worker("./worker.js", {
+        name: "dedicated",
+        // type: "classic" 载入的脚本应该如何运行
+        // credentials: "omit"
+    });
+    // 加密
+    var key = "1234123412ABCDEF";
+    worker.postMessage({
+        type: "encrypt",
+        key: key,
+        word: "dedicated worker"
+    });
+
+    worker.postMessage({
+        type: "decrypt",
+        key: key,
+        word: "98a3fef3fc88d360d413ef6bbeca9694461a7b00f9673b05d2b067542426762c"
+    })
+
+    worker.onmessage = function (event) {
+        var data = event.data;
+        console.log(data.type + ":" + data.result + ".");
+    }
+
+    var moduleWorker = new Worker("./module-worker.js", {
+        name: "module-worker",
+        type: "module"
+    });
+    moduleWorker.postMessage({
+        name: "admin",
+        age: 18
+    });
+    moduleWorker.onmessage = function (event) {
+        console.log(event.data.str);
+    };
+
+    // 内联方式创建专用worker
+    function fibonacci(n) {
+        return n < 1 ? 0 : n <= 2 ? 1 : fibonacci(n - 1) + fibonacci(n - 2);
+    }
+
+    const workerScript = `self.onmessage = function (event) {
+        let data = event.data;
+        self.postMessage((${fibonacci.toString()})(data));
+    }`;
+
+    var blob = new Blob([workerScript]);
+    let workerScriptBlobUrl = URL.createObjectURL(blob);
+    let blobWorker = new Worker(workerScriptBlobUrl);
+    blobWorker.postMessage(9);
+    blobWorker.onmessage = function (event) {
+        console.log(event.data);
+    };
+
+    var msgPortWorker = new Worker("./message-channel-worker.js");
+    const channel = new MessageChannel();
+    // Send the MessagePort object to the worker.
+    msgPortWorker.postMessage(null, [channel.port1]);
+    // Send the actual message on the channel
+    channel.port2.onmessage = ({data}) => console.log(data);
+    // Worker will respond on the channel
+    channel.port2.postMessage(5);
+
+    // 两个worker之间直接通讯
+    const ch = new MessageChannel();
+    const wa = new Worker("./direct-worker-msg.js");
+    const wb = new Worker("./direct-worker-msg.js");
+
+    wa.postMessage('workerA', [ch.port1]);
+    wb.postMessage('workerB', [ch.port2]);
+
+    wa.onmessage = ({data}) => console.log(data);
+    wb.onmessage = ({data}) => console.log(data);
+
+    wa.postMessage(['page']);
+    wb.postMessage(['page']);
+
+    // BroadcastChannel通讯
+    const broadcastChannel = new BroadcastChannel('worker_channel');
+    const bw = new Worker("./broadcast-worker.js");
+    broadcastChannel.onmessage = ({data}) => {
+        console.log(`heard ${data} on page`);
+    };
+    setTimeout(() => broadcastChannel.postMessage('foo'), 1000);
+
+    // 数据传输
+    // 1. 结构复制算法
+    const copyWorker = new Worker("./copy-worker.js");
+    const arrayBuffer = new ArrayBuffer(32);
+    console.log(`page's buffer size: ${arrayBuffer.byteLength}`);
+    copyWorker.postMessage(arrayBuffer);
+    console.log(`page's buffer size: ${arrayBuffer.byteLength}`);
+
+    // 可转让对象
+    const transferWorker = new Worker("./transfer-worker.js");
+    const ab = new ArrayBuffer(100);
+    console.log(`page's buffer size: ${ab.byteLength}`);
+    transferWorker.postMessage(ab, [ab]); // 转移对象
+    console.log(`page's buffer size: ${ab.byteLength}`); // 当ArrayBuffer 被指定为可转让对象时，缓存的引用将在父环境中清除，并分配给worker 环境.
+
+    // 嵌套可转让对象
+    const nestedTransferWorker = new Worker("./nested-transfer-worker.js");
+    const nestedAB = new ArrayBuffer(1000);
+    console.log(`page's buffer size: ${nestedAB.byteLength}`);
+    nestedTransferWorker.postMessage({
+        foo: {
+            bar: nestedAB
+        }
+    }, [nestedAB]);
+    console.log(`page's buffer size: ${nestedAB.byteLength}`); // 嵌套对象会被转让，而包含它的对象会被复制
+
+    // SharedArrayBuffer
+    const sharedABWorker = new Worker("./shared-arraybuffer-worker.js");
+    const sharedAB = new SharedArrayBuffer(1);
+    const view = new Uint8Array(sharedAB);
+    view[0] = 1;
+    sharedABWorker.onmessage = () => {
+        console.log(`buffer value after worker modification: ${view[0]}`);
+    }
+    sharedABWorker.postMessage(sharedAB);
+
+    // worker冲突
+    const workers = [];
+    for (let i = 0; i < 4; i++) {
+        // workers.push(new Worker("./conflict-sharedab-worker.js"));
+        workers.push(new Worker("./atomics-worker.js"));
+    }
+
+    let responseCount = 0;
+    for (const w of workers) {
+        w.onmessage = () => {
+            if (++responseCount === workers.length) {
+                console.log(`Final buffer value: ${vsab[0]}`);
+            }
+        }
+    }
+
+    const sab = new SharedArrayBuffer(4);
+    const vsab = new Uint32Array(sab);
+    vsab[0] = 1;
+    workers.forEach(w => {
+        w.postMessage(sab);
+    });
+</script>
+<script src="worker-pool.js"></script>
+</body>
+</html>

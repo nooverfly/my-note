@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>immutable-api</title>
+    <script src="../../libs/immutable.min.js"></script>
+    <link rel="stylesheet" href="../../libs/bootstrap/css/bootstrap.min.css">
+    <style>
+        .content-container {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="content-container">
+    <div class="card" style="width: 100%">
+        <div class="card-body">
+            <h5 class="card-title">immutable-api</h5>
+            <p class="card-text">
+            <ul>
+                <li>fromJS()</li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+    // fromJS(): 将一个JS对象或数组转换为不可变的Maps或Lists
+    Immutable.fromJS({
+        a: {
+            b: [10, 20, 30]
+        },
+        c: 40
+    }, function (key, value, path) {
+        console.log(key, value, path);
+        return Immutable.isIndexed(value) ? value.toList() : value.toOrderedMap();
+    });
+</script>
+</body>
+</html>
