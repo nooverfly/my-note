@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Camera&Video</title>
+</head>
+<body>
+<video id="video" autoplay muted playsinline style="width: 640px; height: 480px"></video>
+<script>
+    var domElement = document.getElementById("video");
+    if (navigator.mediaDevices === undefined
+        || navigator.mediaDevices.enumerateDevices === undefined
+        || navigator.mediaDevices.getUserMedia === undefined) {
+        if (navigator.mediaDevices === undefined)
+            var fctName = 'navigator.mediaDevices'
+        else if (navigator.mediaDevices.enumerateDevices === undefined)
+            var fctName = 'navigator.mediaDevices.enumerateDevices'
+        else if (navigator.mediaDevices.getUserMedia === undefined)
+            var fctName = 'navigator.mediaDevices.getUserMedia'
+        alert('WebRTC issue-! ' + fctName + ' not present in your browser')
+    }
+    navigator.mediaDevices.enumerateDevices().then(function (devices) {
+        var userMediaConstraints = {
+            audio: false,
+            video: {
+                facingMode: 'environment',
+                width: {
+                    ideal: 640,
+                    // min: 1024,
+                    // max: 1920
+                },
+                height: {
+                    ideal: 480,
+                    // min: 776,
+                    // max: 1080
+                }
+            }
+        };
+
+        /*if (null !== _this.parameters.deviceId) {
+            userMediaConstraints.video.deviceId = {
+                exact: _this.parameters.deviceId
+            };
+        }*/
+
+        // get a device which satisfy the constraints
+        navigator.mediaDevices.getUserMedia(userMediaConstraints).then(function success(stream) {
+            // set the .src of the domElement
+            domElement.srcObject = stream;
+
+            var event = new CustomEvent('camera-init', { stream: stream });
+            window.dispatchEvent(event);
+            // to start the video, when it is possible to start it only on userevent. like in android
+            document.body.addEventListener('click', function () {
+                domElement.play();
+            });
+            // domElement.play();
+
+            alert("Ready");
+        }).catch(function (error) {
+            alert(error.message)
+        });
+    }).catch(function (error) {
+        alert(error.message)
+    });
+</script>
+</body>
+</html>

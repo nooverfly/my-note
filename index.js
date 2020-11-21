@@ -80,13 +80,27 @@ var data = [
         itemStyle: {
             color: '#187a2f'
         },
-        children: [{
-            name: 'canvas',
-            value: 1,
-            itemStyle: {
-                color: '#a2b029'
+        children: [
+            {
+                name: 'canvas',
+                value: 1,
+                itemStyle: {
+                    color: '#a2b029'
+                }
+            }, {
+                name: 'WebGL',
+                value: 1,
+                itemStyle: {
+                    color: '#93e321'
+                }
+            }, {
+                name: 'WebGIS',
+                value: 1,
+                itemStyle: {
+                    color: '#20d41a'
+                }
             }
-        }]
+        ]
     }, {
         name: '设计模式',
         itemStyle: {
