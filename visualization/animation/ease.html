@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ease</title>
+    <script src="ease.js"></script>
+</head>
+<body>
+<div>
+    <div>easeLinear:</div>
+    <canvas id="easeLinear" width="500" height="300"></canvas>
+</div>
+<!--<div>
+    <div>easeLinear:</div>
+    <canvas id="easeLinear" width="500" height="300"></canvas>
+</div>-->
+<script>
+    // easeLinear
+    function draw(id, easeFunc) {
+        let canvas = document.getElementById(id);
+        let width = canvas.clientWidth,
+            height = canvas.clientHeight;
+        let ctx = canvas.getContext("2d");
+
+        ctx.moveTo(0, height);
+        for (let i = 1; i < width; i++) {
+            let sx = i/width,
+                sy = easeFunc(sx);
+            ctx.lineTo(sx * width, height - sy * height);
+        }
+        ctx.stroke();
+    }
+    draw("easeLinear", easeLinear);
+</script>
+</body>
+</html>
