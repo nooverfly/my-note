@@ -4,33 +4,244 @@
     <meta charset="UTF-8">
     <title>ease</title>
     <script src="ease.js"></script>
+    <style>
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
-<div>
-    <div>easeLinear:</div>
-    <canvas id="easeLinear" width="500" height="300"></canvas>
+<div class="content">
+    <div>
+        <div>easeLinear:</div>
+        <canvas id="easeLinear" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easePolyIn:</div>
+        <canvas id="easePolyIn" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easePolyOut:</div>
+        <canvas id="easePolyOut" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easePolyInOut:</div>
+        <canvas id="easePolyInOut" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easeQuadIn:</div>
+        <canvas id="easeQuadIn" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easeQuadOut:</div>
+        <canvas id="easeQuadOut" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easeQuadInOut:</div>
+        <canvas id="easeQuadInOut" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easeCubicIn:</div>
+        <canvas id="easeCubicIn" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easeCubicOut:</div>
+        <canvas id="easeCubicOut" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easeCubicInOut:</div>
+        <canvas id="easeCubicInOut" width="500" height="200"></canvas>
+    </div>
+
+    <div>
+        <div>easeSinIn:</div>
+        <canvas id="easeSinIn" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easeSinOut:</div>
+        <canvas id="easeSinOut" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easeSinInOut:</div>
+        <canvas id="easeSinInOut" width="500" height="200"></canvas>
+    </div>
+
+    <div>
+        <div>easeExpIn:</div>
+        <canvas id="easeExpIn" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easeExpOut:</div>
+        <canvas id="easeExpOut" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easeExpInOut:</div>
+        <canvas id="easeExpInOut" width="500" height="200"></canvas>
+    </div>
+
+    <div>
+        <div>easeCircleIn:</div>
+        <canvas id="easeCircleIn" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easeCircleOut:</div>
+        <canvas id="easeCircleOut" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easeCircleInOut:</div>
+        <canvas id="easeCircleInOut" width="500" height="200"></canvas>
+    </div>
+
+    <div>
+        <div>easeElasticIn:</div>
+        <canvas id="easeElasticIn" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easeElasticOut:</div>
+        <canvas id="easeElasticOut" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easeElasticInOut:</div>
+        <canvas id="easeElasticInOut" width="500" height="200"></canvas>
+    </div>
+
+    <div>
+        <div>easeBackIn:</div>
+        <canvas id="easeBackIn" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easeBackOut:</div>
+        <canvas id="easeBackOut" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easeBackInOut:</div>
+        <canvas id="easeBackInOut" width="500" height="200"></canvas>
+    </div>
+
+    <div>
+        <div>easeBounceIn:</div>
+        <canvas id="easeBounceIn" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easeBounceOut:</div>
+        <canvas id="easeBounceOut" width="500" height="200"></canvas>
+    </div>
+    <div>
+        <div>easeBounceInOut:</div>
+        <canvas id="easeBounceInOut" width="500" height="200"></canvas>
+    </div>
 </div>
-<!--<div>
-    <div>easeLinear:</div>
-    <canvas id="easeLinear" width="500" height="300"></canvas>
-</div>-->
 <script>
+    let colors = [
+        "#f8adc0",
+        "#f36da5",
+        "#dc449d",
+        "#b5278f",
+        "#83117e",
+        "#723b8b"
+    ];
+
     // easeLinear
-    function draw(id, easeFunc) {
+    function draw(id, easeFunc, color) {
+        color = color || "#000";
         let canvas = document.getElementById(id);
         let width = canvas.clientWidth,
             height = canvas.clientHeight;
         let ctx = canvas.getContext("2d");
 
+        ctx.beginPath();
+        ctx.strokeStyle = color;
         ctx.moveTo(0, height);
         for (let i = 1; i < width; i++) {
-            let sx = i/width,
+            let sx = i / width,
                 sy = easeFunc(sx);
             ctx.lineTo(sx * width, height - sy * height);
         }
         ctx.stroke();
     }
+
     draw("easeLinear", easeLinear);
+
+    draw("easePolyIn", polyIn.exponent(4), colors[0]);
+    draw("easePolyIn", polyIn.exponent(3), colors[1]);
+    draw("easePolyIn", polyIn.exponent(2), colors[2]);
+    draw("easePolyIn", polyIn.exponent(1), colors[3]);
+    draw("easePolyIn", polyIn.exponent(0.5), colors[4]);
+
+    draw("easePolyOut", polyOut.exponent(4), colors[0]);
+    draw("easePolyOut", polyOut.exponent(3), colors[1]);
+    draw("easePolyOut", polyOut.exponent(2), colors[2]);
+    draw("easePolyOut", polyOut.exponent(1), colors[3]);
+    draw("easePolyOut", polyOut.exponent(0.5), colors[4]);
+
+    draw("easePolyInOut", polyInOut.exponent(4), colors[0]);
+    draw("easePolyInOut", polyInOut.exponent(3), colors[1]);
+    draw("easePolyInOut", polyInOut.exponent(2), colors[2]);
+    draw("easePolyInOut", polyInOut.exponent(1), colors[3]);
+    draw("easePolyInOut", polyInOut.exponent(0.5), colors[4]);
+
+    draw("easeQuadIn", quadIn);
+    draw("easeQuadOut", quadOut);
+    draw("easeQuadInOut", quadInOut);
+
+    draw("easeCubicIn", cubicIn);
+    draw("easeCubicOut", cubicOut);
+    draw("easeCubicInOut", cubicInOut);
+
+    draw("easeSinIn", sinIn);
+    draw("easeSinOut", sinOut);
+    draw("easeSinInOut", sinInOut);
+
+    draw("easeExpIn", expIn);
+    draw("easeExpOut", expOut);
+    draw("easeExpInOut", expInOut);
+
+    draw("easeCircleIn", circleIn);
+    draw("easeCircleOut", circleOut);
+    draw("easeCircleInOut", circleInOut);
+
+    draw("easeElasticIn", elasticIn.amplitude(1).period(0.2), colors[0]);
+    draw("easeElasticIn", elasticIn.amplitude(1.05).period(0.25), colors[1]);
+    draw("easeElasticIn", elasticIn.amplitude(1.15).period(0.3), colors[2]);
+    draw("easeElasticIn", elasticIn.amplitude(1.2).period(0.35), colors[3]);
+
+    draw("easeElasticOut", elasticOut.amplitude(1).period(0.2), colors[0]);
+    draw("easeElasticOut", elasticOut.amplitude(1.05).period(0.25), colors[1]);
+    draw("easeElasticOut", elasticOut.amplitude(1.15).period(0.3), colors[2]);
+    draw("easeElasticOut", elasticOut.amplitude(1.2).period(0.35), colors[3]);
+
+    draw("easeElasticInOut", elasticInOut.amplitude(1).period(0.2), colors[0]);
+    draw("easeElasticInOut", elasticInOut.amplitude(1.05).period(0.25), colors[1]);
+    draw("easeElasticInOut", elasticInOut.amplitude(1.15).period(0.3), colors[2]);
+    draw("easeElasticInOut", elasticInOut.amplitude(1.2).period(0.35), colors[3]);
+
+    draw("easeBackIn", backIn.overshoot(3.0), colors[0]);
+    draw("easeBackIn", backIn.overshoot(2.5), colors[1]);
+    draw("easeBackIn", backIn.overshoot(2.0), colors[2]);
+    draw("easeBackIn", backIn.overshoot(1.5), colors[3]);
+    draw("easeBackIn", backIn.overshoot(1.0), colors[4]);
+    draw("easeBackIn", backIn.overshoot(0.5), colors[5]);
+
+    draw("easeBackOut", backOut.overshoot(3.0), colors[0]);
+    draw("easeBackOut", backOut.overshoot(2.5), colors[1]);
+    draw("easeBackOut", backOut.overshoot(2.0), colors[2]);
+    draw("easeBackOut", backOut.overshoot(1.5), colors[3]);
+    draw("easeBackOut", backOut.overshoot(1.0), colors[4]);
+    draw("easeBackOut", backOut.overshoot(0.5), colors[5]);
+
+    draw("easeBackInOut", backInOut.overshoot(3.0), colors[0]);
+    draw("easeBackInOut", backInOut.overshoot(2.5), colors[1]);
+    draw("easeBackInOut", backInOut.overshoot(2.0), colors[2]);
+    draw("easeBackInOut", backInOut.overshoot(1.5), colors[3]);
+    draw("easeBackInOut", backInOut.overshoot(1.0), colors[4]);
+    draw("easeBackInOut", backInOut.overshoot(0.5), colors[5]);
+
+    draw("easeBounceIn", bounceIn);
+    draw("easeBounceOut", bounceOut);
+    draw("easeBounceInOut", bounceInOut);
 </script>
 </body>
 </html>

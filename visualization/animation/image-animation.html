@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>image-animation</title>
+    <script src="ease.js"></script>
+    <style>
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <select id="animationSelect">
+    </select>
+</div>
+<div class="content">
+    <div>
+        <canvas id="canvas" width="640" height="636"></canvas>
+    </div>
+    <div>
+        <canvas id="chart" width="1000" height="600"></canvas>
+    </div>
+</div>
+<script>
+    let canvas = document.getElementById("canvas"),
+        width = canvas.clientWidth,
+        height = canvas.clientHeight,
+        ctx = canvas.getContext("2d");
+
+    let chart = document.getElementById("chart"),
+        cw = chart.clientWidth,
+        ch = chart.clientHeight,
+        chartCtx = chart.getContext("2d");
+
+    let img = new Image();
+    let duration = 3000;
+    let animation = {
+        easeLinear: easeLinear,
+
+        easePolyIn: polyIn,
+        easePolyOut: polyOut,
+        easePolyInOut: polyInOut,
+
+        easeQuadIn: quadIn,
+        easeQuadOut: quadOut,
+        easeQuadInOut: quadInOut,
+
+        easeCubicIn: cubicIn,
+        easeCubicOut: cubicOut,
+        easeCubicInOut: cubicInOut,
+
+        easeSinIn: sinIn,
+        easeSinOut: sinOut,
+        easeSinInOut: sinInOut,
+
+        easeExpIn: expIn,
+        easeExpOut: expOut,
+        easeExpInOut: expInOut,
+
+        easeCircleIn: circleIn,
+        easeCircleOut: circleOut,
+        easeCircleInOut: circleInOut,
+
+        easeElasticIn: elasticIn.amplitude(1).period(0.35),
+        easeElasticOut: elasticOut.amplitude(1).period(0.35),
+        easeElasticInOut: elasticInOut.amplitude(1).period(0.35),
+
+        easeBackIn: backIn,
+        easeBackOut: backOut,
+        easeBackInOut: backInOut,
+
+        easeBounceIn: bounceIn,
+        easeBounceOut: bounceOut,
+        easeBounceInOut: bounceInOut
+    };
+
+    let animationSelect = document.getElementById("animationSelect");
+
+    for (let key in animation) {
+        let option = document.createElement("option");
+        option.value = key;
+        option.innerText = key;
+        animationSelect.append(option);
+    }
+
+    img.onload = function () {
+        let start = undefined;
+        let handleFunc = animation.easeLinear;
+
+        function draw() {
+            if (!start) {
+                start = performance.now();
+                chartCtx.clearRect(0, 0, cw, ch);
+                chartCtx.beginPath();
+                chartCtx.moveTo(0, ch);
+            }
+            let now = performance.now();
+            let delta = (now - start) / duration;
+            if (delta < 1) {
+                let result = handleFunc(delta);
+                ctx.clearRect(0, 0, width, height);
+                ctx.save();
+                ctx.translate(-width * result / 2, -height * result / 2);
+                ctx.scale(1 + result, 1 + result);
+                ctx.drawImage(img, 0, 0);
+                ctx.restore();
+
+                chartCtx.lineTo(cw * delta, ch * (1 - result));
+                chartCtx.stroke();
+                requestAnimationFrame(draw);
+            }
+        }
+
+        draw();
+        document.getElementById("animationSelect").addEventListener("change",function () {
+            let value = this.value;
+            handleFunc = animation[value];
+            start = undefined;
+            draw();
+        });
+    };
+    img.src = "./zj.png";
+</script>
+</body>
+</html>
