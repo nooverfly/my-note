@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>escape-html</title>
+  </head>
+  <body>
+    <!-- <div>abc</div> -->
+    <button>efg</button>
+    <script src="./escapeHtml.js"></script>
+    <script>
+      var str = `<div>abc</div>
+    <button>efg</button>
+      `;
+      var result = escapeHtmlComment(str);
+      console.log(result);
+
+      var result2 = escapeHtml(str);
+      console.log(result2);
+    </script>
+  </body>
+</html>

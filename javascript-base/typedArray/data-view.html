@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DataView</title>
+  </head>
+  <body>
+    <script>
+      const buffer = new ArrayBuffer(16);
+
+      const view = new DataView(buffer);
+      view.setInt16(1, 220); // (max signed 16-bit integer)
+
+      debugger;
+      console.log(view.getInt16(1));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>generateCodeFrame</title>
+  </head>
+  <body>
+    <script src="./generateCodeFrame.js"></script>
+    <script>
+      let source = `function escapeHtmlComment(src) {
+  return src.replace(commentStripRE, "");
+}`;
+      let result = generateCodeFrame(source);
+      console.log(result);
+    </script>
+  </body>
+</html>

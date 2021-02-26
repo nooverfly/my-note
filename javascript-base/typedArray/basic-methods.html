@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>typedArray-basic-method</title>
+  </head>
+  <body>
+    <script>
+      let buffer = new ArrayBuffer(8);
+      let buffer2 = new ArrayBuffer(20);
+
+      let uint16 = new Uint16Array(buffer);
+      uint16.set([1, 2, 3, 65534], 0);
+      uint16[0] = 700000;
+      let uint32 = new Uint32Array(buffer2);
+      uint32.set(uint16, 0);
+      uint32[4] = 700000;
+
+      console.log(uint16);
+      console.log(uint32);
+
+      /* 
+      
+      console.log(uint8); */
+    </script>
+  </body>
+</html>

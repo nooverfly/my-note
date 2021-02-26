@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>构造函数</title>
+  </head>
+  <body>
+    <script>
+      /* let o = new Object();
+      console.log(o);
+
+      function Person() {}
+      Person.prototype = {
+        name: "Nicholas",
+        age: 29,
+        job: "Software Engineer",
+        sayName() {
+          console.log(this.name);
+        },
+      };
+      let friend = new Person();
+      console.log(friend instanceof Object); // true
+      console.log(friend instanceof Person); // true
+      console.log(friend.constructor == Person); // false
+      // friend实例上没有constructor属性, 去原型找, 原型上也没有, 再去其原型Object找, 找到constructor属性指向Object
+      console.log(friend.constructor == Object); // true */
+
+      function Person() {}
+
+      let friend = new Person();
+      Person.prototype = {
+        constructor: Person,
+        name: "Nicholas",
+        age: 29,
+        job: "Software Engineer",
+        sayName() {
+          console.log(this.name);
+        },
+      };
+
+      // friend.sayName(); 错误
+      console.log(friend.__proto__.constructor === Person);
+    </script>
+  </body>
+</html>

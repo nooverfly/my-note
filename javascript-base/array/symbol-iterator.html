@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>symbol-iterator</title>
+  </head>
+  <body>
+    <script>
+      class Queue {
+        constructor(items) {
+          this.array = Array.from(items);
+        }
+
+        // 自定义迭代器, 即定义一个Symbol.iterator方法
+        [Symbol.iterator]() {
+          let len = this.array.length;
+          let i = 0;
+          return {
+            next: () => {
+              return i < len
+                ? {
+                    done: false,
+                    value: this.array[i++],
+                  }
+                : {
+                    done: true,
+                  };
+            },
+          };
+        }
+      }
+
+      let queue = new Queue([1, 2, 3, 4, 5]);
+
+      for (const q of queue) {
+        console.log(q);
+      }
+    </script>
+  </body>
+</html>
