@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>velocity.js</title>
+    <style>
+      body {
+        font-family: "Helvetica Neue", Helvetica;
+        width: 90%;
+        font-weight: 200;
+        letter-spacing: 1px;
+        margin: 25px auto 0 auto;
+        background: rgb(234, 235, 235);
+        color: rgb(25, 25, 25);
+      }
+
+      div,
+      p {
+        margin: 0 auto;
+      }
+
+      p {
+        color: rgb(125, 125, 125);
+        font-size: 0.85rem;
+        text-align: center;
+        margin-bottom: 17px;
+      }
+
+      div {
+        width: 35%;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+      nostrud exercitation ullamco laboris.
+    </div>
+    <script src="../../libs/velocity/velocity.js"></script>
+    <script>
+      var elements = document.querySelector("div");
+
+      Velocity(elements, {
+        opacity: 0,
+        width: "0px",
+      });
+    </script>
+  </body>
+</html>

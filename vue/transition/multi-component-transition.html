@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>多组件的过渡</title>
+    <script src="../../libs/vue.js"></script>
+    <style>
+      .component-fade-enter-active,
+      .component-fade-leave-active {
+        transition: opacity 0.3s ease;
+      }
+      .component-fade-enter,
+      .component-fade-leave-to {
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="demo">
+      <div><input type="radio" checked @change="view = 'v-a'" name="view" /> A <input type="radio" @change="view = 'v-b'" name="view" /> B</div>
+      <transition name="component-fade" mode="out-in">
+        <component v-bind:is="view"></component>
+      </transition>
+    </div>
+    <script>
+      new Vue({
+        el: "#demo",
+        data: {
+          view: "v-a",
+        },
+        components: {
+          "v-a": {
+            template: "<div>Component A</div>",
+          },
+          "v-b": {
+            template: "<div>Component B</div>",
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

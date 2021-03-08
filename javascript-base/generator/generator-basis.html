@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>生成器基础</title>
+  </head>
+  <body>
+    <script>
+      /* function* generatorFn() {}
+      console.log(generatorFn);
+      console.log(generatorFn()[Symbol.iterator]);
+      console.log(generatorFn());
+      console.log(generatorFn());
+
+      const g = generatorFn();
+      console.log(g === g[Symbol.iterator]()); */
+
+      function* generatorFn() {
+        console.log("start");
+        yield;
+        console.log("middle");
+        yield;
+        console.log("end");
+      }
+      let generatorObj = generatorFn();
+      console.log(generatorObj.next());
+      console.log(generatorObj.next());
+    </script>
+  </body>
+</html>
