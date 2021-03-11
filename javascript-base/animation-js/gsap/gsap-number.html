@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>gsap-number</title>
+    <script src="../../../libs/gsap/gsap.min.js"></script>
+  </head>
+  <body>
+    <div id="animated-number-demo">
+      <input id="inputNumber" type="number" step="20" />
+      <p id="result"></p>
+    </div>
+  </body>
+  <script>
+    document.getElementById("inputNumber").addEventListener("change", function (e) {
+      gsap.to("#result", { duration: 0.5 });
+    });
+  </script>
+</html>

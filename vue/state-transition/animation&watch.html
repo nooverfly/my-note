@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>animation&watch</title>
+    <script src="../../libs/vue.js"></script>
+    <script src="../../libs/gsap/gsap.min.js"></script>
+  </head>
+  <body>
+    <div id="animated-number-demo">
+      <input type="number" v-model.number="number" step="20" />
+      <p>{{animatedNumber}}</p>
+    </div>
+    <script>
+      let app = new Vue({
+        el: "#animated-number-demo",
+        data: {
+          number: 0,
+          tweenedNumber: 0,
+        },
+        computed: {
+          animatedNumber: function () {
+            return this.tweenedNumber.toFixed(0);
+          },
+        },
+        watch: {
+          number: function (newValue) {
+            gsap.to(this.$data, { duration: 0.5, tweenedNumber: newValue });
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
