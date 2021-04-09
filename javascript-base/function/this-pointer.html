@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>this指向问题</title>
+  </head>
+  <body>
+    <div id="btn">按钮</div>
+    <script>
+      // class People {
+      //   constructor(name) {
+      //     this.name = name;
+      //   }
+
+      //   sayHi() {
+      //     console.log(this);
+      //     console.log(`Hi, My name is ${this.name}`);
+      //   }
+      // }
+
+      // let p = new People("Tiga");
+
+      // 注意: 成员函数重新赋值后再调用会丢失this
+      /* let x = p.sayHi;
+      x(); */
+
+      // let x = p.sayHi;
+
+      let obj = {
+        name: "Tiga",
+        sayHi: () => {
+          console.log(this);
+          console.log(`Hi, My name is ${this.name}`);
+        },
+      };
+      obj.sayHi();
+
+      document.getElementById("btn").onclick = obj.sayHi;
+    </script>
+  </body>
+</html>

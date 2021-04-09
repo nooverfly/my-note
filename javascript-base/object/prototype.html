@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>原型和原型链</title>
+  </head>
+  <body>
+    <h4>所有函数都有一个prototype属性, 指向原型对象.默认所有原型对象有一个constructor属性, 指回与之关联的函数.</h4>
+    <script>
+      function sum(...args) {
+        return args.reduce((acc, cur) => {
+          return acc + cur;
+        });
+      }
+      console.dir(sum);
+      console.log(sum.prototype.constructor === sum);
+
+      function People(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      People.prototype.sayHi = function () {
+        return `Hi,My name is ${this.name}`;
+      };
+      console.dir(People);
+      console.log(People.prototype.constructor === People);
+    </script>
+
+    <h4>所有引用类型(调用构造函数创建的实例)内部的[[Prototype]]指针指向构造函数的原型对象, 通过__proto__属性可以访问.</h4>
+    <script>
+      let obj1 = {
+        name: "Tiga",
+        age: 18,
+      };
+      let obj2 = new Object();
+      (obj2.name = "Nexus"), (obj2.age = 20);
+      console.log(obj1.__proto__ === Object.prototype);
+      console.log(obj2.__proto__ === Object.prototype);
+      console.log(obj1.constructor, obj2.constructor);
+
+      let arr1 = [1, 2, 3];
+      let arr2 = new Array();
+      arr2.push(1);
+      console.log(arr1.__proto__ === Array.prototype);
+      console.log(arr2.__proto__ === Array.prototype);
+      console.log(arr1.constructor, arr2.constructor);
+
+      function multi(...args) {
+        return args.reduce((acc, cur) => acc * cur);
+      }
+      console.log(multi.__proto__ === Function.prototype);
+    </script>
+
+    <h4>实例的构造函数属性指向构造函数</h4>
+    <script>
+      let peo = new People("Tiga", 18);
+      console.log(peo.constructor === People);
+      console.log(peo.__proto__.constructor === People);
+      console.log(peo);
+    </script>
+  </body>
+</html>
